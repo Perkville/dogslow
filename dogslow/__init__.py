@@ -191,19 +191,28 @@ class WatchdogMiddleware(object):
             os.close(fd)
 
     @staticmethod
-    def _compose_output(frame, req_string, started, thread_id):
+    def _compose_output(frame, req_string, started, thread_id, request):
+        def trim_body(body):
+            MAX_LEN = 5000
+            if len(body) > MAX_LEN:
+                text = body[0:MAX_LEN]
+                note = 'REQUEST BODY TRUNCATED, %s LINES TOTAL' % len(body)
+                body = "%s\n\n\n%s" % (text, note)
+            return body
         output = 'Undead request intercepted at: %s\n\n' \
                  '%s\n' \
                  'Hostname:   %s\n' \
                  'Thread ID:  %d\n' \
                  'Process ID: %d\n' \
-                 'Started:    %s\n\n' % \
+                 'Started:    %s\n\n' \
+                 'REQUEST BODY\n\n%s\n\n\n' % \
                  (dt.datetime.utcnow().strftime("%d-%m-%Y %H:%M:%S UTC"),
                   req_string,
                   socket.gethostname(),
                   thread_id,
                   os.getpid(),
-                  started.strftime("%d-%m-%Y %H:%M:%S UTC"),)
+                  started.strftime("%d-%m-%Y %H:%M:%S UTC"),
+                  trim_body(request.body),)
         output += stack(frame, with_locals=False)
         output += '\n\n'
         stack_vars = getattr(settings, 'DOGSLOW_STACK_VARS', False)
@@ -235,7 +244,7 @@ class WatchdogMiddleware(object):
                 req_string += ('?' + request.META.get('QUERY_STRING'))
 
             output = WatchdogMiddleware._compose_output(
-                frame, req_string, started, thread_id)
+                frame, req_string, started, thread_id, request)
 
             # dump to file:
             log_to_file = getattr(settings, 'DOGSLOW_LOG_TO_FILE', True)
