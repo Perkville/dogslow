@@ -1,0 +1,87 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/41fa40d/
+Caveats	README.rst	/^Caveats$/;"	s	chapter:Dogslow -- Django Slow Request Watchdog
+Co-routines and Greenlets	README.rst	/^Co-routines and Greenlets$/;"	S	section:Caveats
+Configuration	README.rst	/^Configuration$/;"	s	chapter:Dogslow -- Django Slow Request Watchdog
+Dogslow -- Django Slow Request Watchdog	README.rst	/^Dogslow -- Django Slow Request Watchdog$/;"	c
+Installation	README.rst	/^Installation$/;"	s	chapter:Dogslow -- Django Slow Request Watchdog
+Multithreading and the GIL	README.rst	/^Multithreading and the GIL$/;"	S	section:Caveats
+Overview	README.rst	/^Overview$/;"	s	chapter:Dogslow -- Django Slow Request Watchdog
+PREFIX_ARG	Makefile	/^PREFIX_ARG=--prefix=$(PREFIX)$/;"	m
+PYTHON	Makefile	/^PYTHON=python$/;"	m
+SafePrettyPrinter	dogslow/__init__.py	/^class SafePrettyPrinter(pprint.PrettyPrinter, object):$/;"	c
+Sentry Integration	README.rst	/^Sentry Integration$/;"	s	chapter:Dogslow -- Django Slow Request Watchdog
+Timer	dogslow/timer.py	/^class Timer(threading.Thread):$/;"	c
+TimerTask	dogslow/timer.py	/^class TimerTask(object):$/;"	c
+Usage	README.rst	/^Usage$/;"	s	chapter:Dogslow -- Django Slow Request Watchdog
+WatchdogMiddleware	dogslow/__init__.py	/^class WatchdogMiddleware(object):$/;"	c
+__call__	dogslow/__init__.py	/^    def __call__(self, request):$/;"	m	class:WatchdogMiddleware
+__init__	dogslow/__init__.py	/^    def __init__(self, get_response=None):$/;"	m	class:WatchdogMiddleware
+__init__	dogslow/timer.py	/^    def __init__(self, callable_, *args, **kwargs):$/;"	m	class:TimerTask
+__init__	dogslow/timer.py	/^    def __init__(self, group=None, target=None, name=None, args=(),$/;"	m	class:Timer
+_cancel	dogslow/__init__.py	/^    def _cancel(self, request):$/;"	m	class:WatchdogMiddleware
+_compose_output	dogslow/__init__.py	/^    def _compose_output(frame, req_string, started, thread_id, request):$/;"	m	class:WatchdogMiddleware
+_ensure_timer_initialized	dogslow/__init__.py	/^    def _ensure_timer_initialized(self):$/;"	m	class:WatchdogMiddleware
+_get_sleep_time	dogslow/timer.py	/^    def _get_sleep_time(self):$/;"	m	class:Timer
+_is_exempt	dogslow/__init__.py	/^    def _is_exempt(self, request):$/;"	m	class:WatchdogMiddleware
+_log_to_custom_logger	dogslow/__init__.py	/^    def _log_to_custom_logger(logger_name, frame, output, req_string, request):$/;"	m	class:WatchdogMiddleware
+_log_to_email	dogslow/__init__.py	/^    def _log_to_email(email_to, email_from, output, req_string):$/;"	m	class:WatchdogMiddleware
+_log_to_file	dogslow/__init__.py	/^    def _log_to_file(output):$/;"	m	class:WatchdogMiddleware
+_sentinel	dogslow/__init__.py	/^_sentinel = object()$/;"	v
+all	Makefile	/^all: build$/;"	t
+build	Makefile	/^build:$/;"	t
+cancel	dogslow/timer.py	/^    def cancel(self, timer_task):$/;"	m	class:Timer
+clean	Makefile	/^clean:$/;"	t
+commands	tox.ini	/^commands = py.test tests\/tests.py$/;"	k	section:testenv
+coverage	Makefile	/^coverage: tests$/;"	t
+deps	tox.ini	/^deps =$/;"	k	section:testenv
+dist	Makefile	/^dist:$/;"	t
+dt	dogslow/__init__.py	/^import datetime as dt$/;"	I
+encoding_error_handler	dogslow/__init__.py	/^    encoding_error_handler = 'replace'$/;"	v
+encoding_error_handler	dogslow/__init__.py	/^encoding_error_handler = 'surrogatepass'$/;"	v
+envlist	tox.ini	/^envlist = py27-dj{18,110,111},py{34,35,36}-dj{18,110,111,20}$/;"	k	section:tox
+format	dogslow/__init__.py	/^    def format(self, obj, context, maxlevels, level):$/;"	m	class:SafePrettyPrinter
+formatvalue	dogslow/__init__.py	/^def formatvalue(v):$/;"	f
+install	Makefile	/^install: build$/;"	t
+is_finished	dogslow/timer.py	/^    def is_finished(self):$/;"	m	class:TimerTask
+long_description	setup.py	/^def long_description():$/;"	f
+okay_view	tests/urls.py	/^def okay_view(request):$/;"	f
+peek	dogslow/__init__.py	/^    def peek(request, thread_id, started):$/;"	m	class:WatchdogMiddleware
+pep8	Makefile	/^pep8:$/;"	t
+process_exception	dogslow/__init__.py	/^    def process_exception(self, request, exception):$/;"	m	class:WatchdogMiddleware
+process_request	dogslow/__init__.py	/^    def process_request(self, request):$/;"	m	class:WatchdogMiddleware
+process_response	dogslow/__init__.py	/^    def process_response(self, request, response):$/;"	m	class:WatchdogMiddleware
+pyflakes	Makefile	/^pyflakes:$/;"	t
+pylint	Makefile	/^pylint:$/;"	t
+pytest_configure	tests/conftest.py	/^def pytest_configure():$/;"	f
+redact_keys	dogslow/__init__.py	/^def redact_keys(d):$/;"	f
+resp	deploy.py	/^resp = urllib2.urlopen('https:\/\/pypi.python.org\/pypi\/dogslow\/json')$/;"	v
+run	dogslow/timer.py	/^    def run(self):$/;"	m	class:Timer
+run	dogslow/timer.py	/^    def run(self):$/;"	m	class:TimerTask
+run_later	dogslow/timer.py	/^    def run_later(self, callable_, timeout, *args, **kwargs):$/;"	m	class:Timer
+safehasattr	dogslow/__init__.py	/^def safehasattr(obj, name):$/;"	f
+shutdown	dogslow/timer.py	/^    def shutdown(self, cancel_jobs=False):$/;"	m	class:Timer
+slow_view	tests/urls.py	/^def slow_view(request):$/;"	f
+spformat	dogslow/__init__.py	/^def spformat(obj, depth=None):$/;"	f
+stack	dogslow/__init__.py	/^def stack(f, with_locals=False):$/;"	f
+test_email_to_multiple_addresses	tests/tests.py	/^def test_email_to_multiple_addresses(settings, client, mailoutbox):$/;"	f
+test_email_to_single_address	tests/tests.py	/^def test_email_to_single_address(settings, client, mailoutbox):$/;"	f
+test_log_to_custom_logger	tests/tests.py	/^def test_log_to_custom_logger(settings, client, caplog):$/;"	f
+test_middleware_for_fast_request	tests/tests.py	/^def test_middleware_for_fast_request(settings, client, tmpdir):$/;"	f
+test_middleware_for_slow_request	tests/tests.py	/^def test_middleware_for_slow_request(settings, client, tmpdir):$/;"	f
+test_stack	tests/tests.py	/^def test_stack():$/;"	f
+test_surrogates	tests/tests.py	/^def test_surrogates(settings):$/;"	f
+testenv	tox.ini	/^[testenv]$/;"	s
+tests	Makefile	/^tests:$/;"	t
+thread	dogslow/__init__.py	/^    import _thread as thread$/;"	I
+thread	tests/tests.py	/^    import _thread as thread$/;"	I
+tox	tox.ini	/^[tox]$/;"	s
+trim_body	dogslow/__init__.py	/^        def trim_body(body):$/;"	f	member:WatchdogMiddleware._compose_output	file:
+upload	Makefile	/^upload: dist$/;"	t
+urlpatterns	tests/urls.py	/^urlpatterns = [$/;"	v
+version	deploy.py	/^version = (subprocess.check_output('python setup.py --version', shell=True)$/;"	v

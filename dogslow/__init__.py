@@ -58,6 +58,17 @@ def formatvalue(v):
         s = object.__repr__(v)[:-1] + ' (really long repr)>'
     return '=' + s
 
+def redact_keys(d):
+    result = {}
+    for k, v in d.iteritems():
+        if k in getattr(settings, 'REDACTED_KEYS', ()):
+            result[k] = '***** REDACTED *****'
+        elif isinstance(v, dict):
+            result[k] = redact_keys(v)
+        else:
+            result[k] = v
+    return result
+
 def stack(f, with_locals=False):
     limit = getattr(sys, 'tracebacklimit', None)
 
@@ -82,6 +93,7 @@ def stack(f, with_locals=False):
 
     out = []
     for filename, lineno, name, line, localvars, args in frames:
+        localvars = redact_keys(localvars)
         out.append('  File "%s", line %d, in %s' % (filename, lineno, name))
         if line:
             out.append('    %s' % line.strip())
@@ -199,6 +211,16 @@ class WatchdogMiddleware(object):
                 note = 'REQUEST BODY TRUNCATED, %s LINES TOTAL' % len(body)
                 body = "%s\n\n\n%s" % (text, note)
             return body
+
+        posted_data = request.POST.copy()
+        if posted_data:
+            for k, v in posted_data.iteritems():
+                if k in getattr(settings, 'REDACTED_KEYS', ()):
+                    posted_data[k] = '***** REDACTED *****'
+            request_body = str(posted_data)
+        else:
+            request_body = request.body
+
         output = 'Undead request intercepted at: %s\n\n' \
                  '%s\n' \
                  'Hostname:   %s\n' \
@@ -212,7 +234,7 @@ class WatchdogMiddleware(object):
                   thread_id,
                   os.getpid(),
                   started.strftime("%d-%m-%Y %H:%M:%S UTC"),
-                  trim_body(request.body),)
+                  trim_body(request_body),)
         output += stack(frame, with_locals=False)
         output += '\n\n'
         stack_vars = getattr(settings, 'DOGSLOW_STACK_VARS', False)
