@@ -60,8 +60,9 @@ def formatvalue(v):
 
 def redact_keys(d):
     result = {}
-    for k, v in d.iteritems():
-        if k in getattr(settings, 'REDACTED_KEYS', ()):
+    for k, v in d.items():
+        k_lower = k.lower()
+        if any(redacted_key in k_lower for redacted_key in getattr(settings, 'REDACTED_KEYS', ())):
             result[k] = '***** REDACTED *****'
         elif isinstance(v, dict):
             result[k] = redact_keys(v)
@@ -93,7 +94,7 @@ def stack(f, with_locals=False):
 
     out = []
     for filename, lineno, name, line, localvars, args in frames:
-        localvars = redact_keys(localvars)
+        redacted_localvars = redact_keys(localvars)
         out.append('  File "%s", line %d, in %s' % (filename, lineno, name))
         if line:
             out.append('    %s' % line.strip())
@@ -102,10 +103,10 @@ def stack(f, with_locals=False):
             args = inspect.formatargvalues(formatvalue=formatvalue, *args)
             out.append('\n      Arguments: %s%s' % (name, args))
 
-        if with_locals and localvars:
+        if with_locals and redacted_localvars:
             out.append('      Local variables:\n')
             try:
-                reprs = spformat(localvars)
+                reprs = spformat(redacted_localvars)
             except Exception:
                 reprs = "failed to format local variables"
             out += ['      ' + l for l in reprs.splitlines()]
@@ -214,10 +215,7 @@ class WatchdogMiddleware(object):
 
         posted_data = request.POST.copy()
         if posted_data:
-            for k, v in posted_data.iteritems():
-                if k in getattr(settings, 'REDACTED_KEYS', ()):
-                    posted_data[k] = '***** REDACTED *****'
-            request_body = str(posted_data)
+            request_body = str(redact_keys(posted_data))
         else:
             request_body = request.body
 
