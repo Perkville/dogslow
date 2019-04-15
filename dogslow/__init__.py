@@ -61,7 +61,10 @@ def formatvalue(v):
 def redact_keys(d):
     result = {}
     for k, v in d.items():
-        k_lower = k.lower()
+        try:
+            k_lower = str(k).lower()
+        except:
+            k_lower = 'Could not call str on key'
         if any(redacted_key in k_lower for redacted_key in getattr(settings, 'REDACTED_KEYS', ())):
             result[k] = '***** REDACTED *****'
         elif isinstance(v, dict):
