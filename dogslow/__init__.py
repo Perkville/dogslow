@@ -150,7 +150,7 @@ class WatchdogMiddleware(object):
         # then we'll use the original msg
         if not log_to_sentry:
             msg = 'Slow Request Watchdog: %s, %s - %s' % (
-                resolve(request.META.get('PATH_INFO')).url_name,
+                request.META.get('PATH_INFO'),
                 req_string.encode('utf-8'),
                 output
             )
