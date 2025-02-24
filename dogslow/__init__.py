@@ -254,8 +254,15 @@ class WatchdogMiddleware(object):
 
     @staticmethod
     def peek(request, thread_id, started):
+        # logging.info("Dogslow peek start")
         try:
-            frame = sys._current_frames()[thread_id]
+            try:
+                frame = sys._current_frames()[thread_id]
+            except KeyError:
+                # Dogslow's child thread can be called after threads are cleaned up, apparently.
+                # If the thread can't be found, the only thing we can do is nothing.
+                # See: https://stackoverflow.com/questions/61153469/orphan-stacktraces-in-sys-current-frames
+                return
 
             req_string = '%s %s://%s%s' % (
                 request.META.get('REQUEST_METHOD'),
@@ -314,6 +321,7 @@ class WatchdogMiddleware(object):
                 request,
                 thread.get_ident(),
                 dt.datetime.utcnow())
+            # logging.info("Dogslow registered timer")
 
     def _ensure_timer_initialized(self):
         if not self.timer:
@@ -329,14 +337,17 @@ class WatchdogMiddleware(object):
             if safehasattr(request, 'dogslow'):
                 self.timer.cancel(request.dogslow)
                 del request.dogslow
+                # logging.info("Dogslow cancel OK")
         except Exception:
             logging.exception('Failed to cancel Dogslow timer')
 
     def process_response(self, request, response):
+        # logging.info("Dogslow response - canceling")
         self._cancel(request)
         return response
 
     def process_exception(self, request, exception):
+        # logging.info("Dogslow exception raised - canceling")
         self._cancel(request)
         
     def __call__(self, request):
